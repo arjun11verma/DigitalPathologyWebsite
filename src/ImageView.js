@@ -91,10 +91,13 @@ class ImageView extends Component {
             }`,
             variables: { _id: this.state.objectId }
         }).then((res) => {
-            const image = this.processImages(this.getImageFromS3(`${res.data.imageSet.username}/${res.data.imageSet.name}/${res.data.imageSet.timestamp}`));
+            this.getImageFromS3(`${res.data.imageSet.username}/${res.data.imageSet.name}/${res.data.imageSet.timestamp}`).then((imageData) => {
+                this.setState({
+                    imageData: this.processImages(imageData)
+                });
+            });
             const diagnosis = res.data.imageSet.diagnosis;
             this.setState({
-                imageData: image,
                 emailUser: res.data.imageSet.username,
                 nameUser: res.data.imageSet.name
             });
@@ -123,9 +126,9 @@ class ImageView extends Component {
         });
     }
 
-    getImageFromS3 = (imgpath) => {
+    getImageFromS3 = async (imgpath) => {
         var imageData;
-        axios.post(`${server_url}getImageS3`, { 'path': imgpath }).then((res) => {
+        await axios.post(`${server_url}getImageS3`, { 'path': imgpath }).then((res) => {
             imageData = res.data.image;
         });
         return imageData;
