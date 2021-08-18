@@ -105,7 +105,6 @@ app.post('/api/getImageS3', (req, res) => {
     s3.getObject({Bucket: 'digitalpath', Key: "/" + req.body.path}, (err, data) => {
         if (err) {
             res.status(200).send({'image': ""});
-            console.log(err);
         } else {
             res.status(200).send({'image': data.Body.toString()})
         }
