@@ -171,8 +171,7 @@ class ImageView extends Component {
                     console.log(err);
                 });
             } else {
-                console.log("There was an error with the server");
-                console.log(res);
+                window.alert("There was an error with the server - the comments were not sent.");
             }
         });
     }
