@@ -31,7 +31,7 @@ const emailTransport = gmailAPI.createTransport(smtpTransport({
     host: 'smtp.gmail.com',
     auth: {
         user: "arjunverma1com@gmail.com",
-        pass: "08/19/2002"
+        pass: ""
     }
 }));
 
