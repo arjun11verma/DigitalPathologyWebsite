@@ -100,11 +100,12 @@ app.post('/api/sendEmail', (req, res) => {
     });
 });
 
-app.post('api/getImageS3', (req, res) => {
+app.post('/api/getImageS3', (req, res) => {
     var s3 = new AWS.S3({accessKeyId: access_key, secretAccessKey: secret_key, apiVersion: '2006-03-01'});
-    s3.getObject({Bucket: 'digitalpath', Key: req.body.path}, (err, data) => {
+    s3.getObject({Bucket: 'digitalpath', Key: "/" + req.body.path}, (err, data) => {
         if (err) {
             res.status(200).send({'image': ""});
+            console.log(err);
         } else {
             res.status(200).send({'image': data.Body.toString()})
         }

@@ -85,13 +85,13 @@ class ImageView extends Component {
                 imageSet(query: {_id: $_id}) {
                     username
                     diagnosis
-                    name
+                    slide_id
                     timestamp
                 }
             }`,
             variables: { _id: this.state.objectId }
         }).then((res) => {
-            this.getImageFromS3(`${res.data.imageSet.username}/${res.data.imageSet.name}/${res.data.imageSet.timestamp}`).then((imageData) => {
+            this.getImageFromS3(`${res.data.imageSet.username}/${res.data.imageSet.slide_id}/${res.data.imageSet.timestamp}`).then((imageData) => {
                 this.setState({
                     imageData: this.processImages(imageData)
                 });
@@ -99,7 +99,7 @@ class ImageView extends Component {
             const diagnosis = res.data.imageSet.diagnosis;
             this.setState({
                 emailUser: res.data.imageSet.username,
-                nameUser: res.data.imageSet.name
+                nameUser: res.data.imageSet.slide_id
             });
 
             if (diagnosis !== "N") {
