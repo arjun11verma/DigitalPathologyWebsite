@@ -30,7 +30,13 @@ class CleanButton extends Component {
      */
     click = () => {
         if (this.props.logoutTask !== undefined && this.props.logoutTask !== null) this.props.logoutTask();
-        if (!this.props.link.includes('//')) document.location.href = this.props.link;
+        if (this.props.requiresLogin === "T") {
+            check().then((loggedIn) => {
+                if (!loggedIn) window.alert("You must be logged in first.");
+                else if (!this.props.link.includes('//')) document.location.href = this.props.link;
+            });
+        } else if (!this.props.link.includes('//')) document.location.href = this.props.link;
+        
     }
 
     /**
@@ -93,10 +99,10 @@ class Home extends Component {
                                 <Typography variant="h3" style={{ fontFamily: "Garamond", color: "grey" }}> Digital Pathology </Typography>
                                 <Typography variant="h6" style={{ fontFamily: "Garamond", color: "grey" }}> Expanding Oncology </Typography>
                             </Grid>
-                            <CleanButton text="Pathology Portal" link={"./" + this.state.email[this.state.length] + "/PathPortal"} />
-                            <CleanButton text="Login" link="./Login" />
-                            <CleanButton text="Logout" link="/" logoutTask={() => logoutCurrentUser()} />
-                            <CleanButton text="Create Account" link="/CreateAccount" />
+                            <CleanButton requiresLogin="T" text="Pathology Portal" link={"./" + this.state.email[this.state.length] + "/PathPortal"} />
+                            <CleanButton requiresLogin="F" text="Login" link="./Login" />
+                            <CleanButton requiresLogin="F" text="Logout" link="/" logoutTask={() => logoutCurrentUser()} />
+                            <CleanButton requiresLogin="F" text="Create Account" link="/CreateAccount" />
                         </Grid>
                     </AppBar>
 
